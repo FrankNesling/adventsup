@@ -9,9 +9,9 @@ fun AdventsPager() {
 
     // content
     val pages = listOf(
-        AdventsContent("December 1"),
-        AdventsContent("December 2"),
-        AdventsContent("December 3"),
+        AdventsContent("December 1", "Some text"),
+        AdventsContent("December 2","Some text"),
+        AdventsContent("December 3","Some text"),
     )
 
     // horizontal pager
