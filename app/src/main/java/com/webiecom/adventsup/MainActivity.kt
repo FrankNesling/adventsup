@@ -20,17 +20,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = Red
                 ) {
-                    Greeting("Android")
+                    AdventsPager()
                 }
             }
         }
     }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "This is the draft of the adventsup",
-        modifier = modifier
-    )
 }
