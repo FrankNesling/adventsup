@@ -3,23 +3,18 @@ package com.webiecom.adventsup
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringArrayResource
 
 @Composable
 fun AdventsPager() {
-
-    // content
-    val pages = listOf(
-        AdventsContent("December 1", "Some text"),
-        AdventsContent("December 2","Some text"),
-        AdventsContent("December 3","Some text"),
-    )
+    val pagesAmount = stringArrayResource(R.array.adventTitles).size
 
     // horizontal pager
     val pagerState = rememberPagerState(pageCount = {
-        pages.size
+        pagesAmount
     })
 
-    HorizontalPager(state = pagerState) { page ->
-        DayPage(pages[page])
+    HorizontalPager(state = pagerState) { idx ->
+        DayPage(idx)
     }
 }
