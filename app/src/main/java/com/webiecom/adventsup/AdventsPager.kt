@@ -23,24 +23,4 @@ fun AdventsPager() {
     HorizontalPager(state = pagerState) { idx ->
         DayPage(idx)
     }
-
-
-
-    // dummy data storage test => TODO: remove
-    val context = LocalContext.current
-    val dataStorage = remember { DataStorage(context) }
-    val scope = rememberCoroutineScope()
-    val opened = dataStorage.getOpened(1)
-        .collectAsState(false)  // initial value until loaded from data storage
-        .value
-
-    LaunchedEffect(pagerState.currentPage) {
-        val index = pagerState.currentPage
-
-        if (index == 2 && !opened) {
-            scope.launch {
-                dataStorage.saveOpened(1, true)
-            }
-        }
-    }
 }

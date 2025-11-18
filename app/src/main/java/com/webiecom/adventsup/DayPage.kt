@@ -2,6 +2,7 @@ package com.webiecom.adventsup
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,8 +12,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.material3.Text
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -25,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import com.webiecom.adventsup.ui.theme.Green
 import com.webiecom.adventsup.ui.theme.White
 import com.webiecom.adventsup.ui.theme.Yellow
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -42,6 +46,18 @@ fun DayPage(idx: Int) {
         .collectAsState(false)  // initial value until loaded from data storage
         .value
 
+    // open box functionality
+    val scope = rememberCoroutineScope()
+    val openBox: () -> Unit = {
+        scope.launch {
+            try {
+                dataStorage.saveOpened(idx, true)
+            } catch (e: Exception) {
+                println("Error saving data: ${e.message}")
+            }
+        }
+    }
+
 
     // UI
     Column(
@@ -55,7 +71,8 @@ fun DayPage(idx: Int) {
                 modifier = Modifier
                     .size(200.dp)
                     .background(Yellow)
-                    .padding(16.dp),
+                    .padding(16.dp)
+                    .clickable(onClick = openBox),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
