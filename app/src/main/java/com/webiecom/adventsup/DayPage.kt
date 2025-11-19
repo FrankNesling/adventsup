@@ -10,10 +10,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.material3.Text
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -29,10 +31,27 @@ import com.webiecom.adventsup.ui.theme.Green
 import com.webiecom.adventsup.ui.theme.White
 import com.webiecom.adventsup.ui.theme.Yellow
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 
 @Composable
 fun DayPage(idx: Int) {
+    // Alert
+    val openAlert = remember { mutableStateOf(false) }
+    if (openAlert.value) {
+        AlertDialog(
+            onDismissRequest = { openAlert.value = false },
+            title = { Text("The day has not yet come.") },
+            text = { Text("Patience! Day ${idx+1} will come soon.") },
+            confirmButton = {
+                Button(onClick = { openAlert.value = false }) {
+                    Text("OK")
+                }
+            }
+        )
+    }
+
+
     // image
     val name = "a${idx + 1}"
     val context = LocalContext.current
@@ -49,15 +68,25 @@ fun DayPage(idx: Int) {
     // open box functionality
     val scope = rememberCoroutineScope()
     val openBox: () -> Unit = {
-        scope.launch {
-            try {
-                dataStorage.saveOpened(idx, true)
-            } catch (e: Exception) {
-                println("Error saving data: ${e.message}")
-            }
-        }
-    }
+        val currentDate = LocalDate.now()
+        val day = currentDate.dayOfMonth
+        val month = currentDate.monthValue
 
+        // check for correct day TODO: DUMMY for now
+        if (day == idx + 18 && month == 11) {
+            scope.launch {
+                try {
+                    dataStorage.saveOpened(idx, true)
+                } catch (e: Exception) {
+                    println("Error saving data: ${e.message}")
+                }
+            }
+        } else {
+            openAlert.value = true
+        }
+
+
+    }
 
     // UI
     Column(
@@ -76,7 +105,7 @@ fun DayPage(idx: Int) {
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = idx.toString(),
+                    text = (idx+1).toString(),
                     fontSize = 50.sp,
                     color = White
                 )
