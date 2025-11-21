@@ -10,6 +10,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringArrayResource
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 @Composable
 fun AdventsPager() {
@@ -22,5 +23,17 @@ fun AdventsPager() {
 
     HorizontalPager(state = pagerState) { idx ->
         DayPage(idx)
+    }
+
+    // jump to current date
+
+    val scope = rememberCoroutineScope()
+    val currentDate = LocalDate.now()
+    var day = currentDate.dayOfMonth
+    day = minOf(day, 24)
+
+    scope.launch {
+        // 4. Scroll to the specific page/index
+        pagerState.animateScrollToPage(day-1)
     }
 }
