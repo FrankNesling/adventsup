@@ -42,7 +42,7 @@ fun DayPage(idx: Int) {
         AlertDialog(
             onDismissRequest = { openAlert.value = false },
             title = { Text("The day has not yet come.") },
-            text = { Text("Patience! Day ${idx+1} will come soon.") },
+            text = { Text("Patience! December ${idx+1} will come soon.") },
             confirmButton = {
                 Button(onClick = { openAlert.value = false }) {
                     Text("OK")
@@ -72,8 +72,8 @@ fun DayPage(idx: Int) {
         val day = currentDate.dayOfMonth
         val month = currentDate.monthValue
 
-        // check for correct day TODO: DUMMY for now
-        if (day == idx + 18 && month == 11) {
+        // check for correct day
+        if (idx + 1 <= day && month == 11) {
             scope.launch {
                 try {
                     dataStorage.saveOpened(idx, true)

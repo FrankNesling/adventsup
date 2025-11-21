@@ -14,7 +14,7 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "op
 class DataStorage(private val context: Context) {
 
     val min = 0
-    val max = 2
+    val max = 23
     val days = (max - min) + 1
 
 
