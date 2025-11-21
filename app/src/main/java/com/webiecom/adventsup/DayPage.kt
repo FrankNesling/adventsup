@@ -34,6 +34,17 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 
 
+fun getDaySuffix(day: Int): String {
+    return when (day) {
+        1, 21 -> "st"
+        2, 22 -> "nd"
+        3, 23 -> "rd"
+        else -> "th"
+    }
+}
+
+
+
 @Composable
 fun DayPage(idx: Int) {
     // Alert
@@ -42,7 +53,7 @@ fun DayPage(idx: Int) {
         AlertDialog(
             onDismissRequest = { openAlert.value = false },
             title = { Text("The day has not yet come.") },
-            text = { Text("Patience! December ${idx+1} will come soon.") },
+            text = { Text("Patience! December ${idx+1}${getDaySuffix(idx+1)} will come soon.") },
             confirmButton = {
                 Button(onClick = { openAlert.value = false }) {
                     Text("OK")
@@ -118,6 +129,13 @@ fun DayPage(idx: Int) {
             Text(
                 text = stringArrayResource(R.array.adventTitles)[idx],
                 fontSize = 50.sp,
+                textAlign = TextAlign.Center,
+                color = Green,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = "${idx+1}${getDaySuffix(idx+1)} December",
+                fontSize = 25.sp,
                 textAlign = TextAlign.Center,
                 color = Green,
                 fontWeight = FontWeight.Bold
