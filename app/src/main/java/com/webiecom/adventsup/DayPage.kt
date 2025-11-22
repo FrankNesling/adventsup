@@ -84,7 +84,7 @@ fun DayPage(idx: Int) {
         val month = currentDate.monthValue
 
         // check for correct day
-        if (idx + 1 <= day && month == 11) {
+        if (idx + 1 <= day && month == 12) {
             scope.launch {
                 try {
                     dataStorage.saveOpened(idx, true)

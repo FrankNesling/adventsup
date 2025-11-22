@@ -3,11 +3,7 @@ package com.webiecom.adventsup
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringArrayResource
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -30,7 +26,9 @@ fun AdventsPager() {
     val scope = rememberCoroutineScope()
     val currentDate = LocalDate.now()
     var day = currentDate.dayOfMonth
-    day = minOf(day, 24)
+    val month = currentDate.monthValue
+    if (month != 12) day = 1
+    else day = minOf(day, 24)
 
     scope.launch {
         // 4. Scroll to the specific page/index
